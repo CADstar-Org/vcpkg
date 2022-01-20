@@ -31,41 +31,34 @@ else()
   set(VCPKG_BUILD_STATIC_LIBS ON)
 endif()
 
-vcpkg_cmake_configure(
-    SOURCE_PATH "${SOURCE_PATH}"
+vcpkg_configure_cmake(
+    SOURCE_PATH ${SOURCE_PATH}
+    PREFER_NINJA
     OPTIONS
         -DLIBHPDF_STATIC=${VCPKG_BUILD_STATIC_LIBS}
         -DLIBHPDF_SHARED=${VCPKG_BUILD_SHARED_LIBS}
 )
 
-vcpkg_cmake_install()
+vcpkg_install_cmake()
 
 if(VCPKG_LIBRARY_LINKAGE STREQUAL "static")
     if(NOT VCPKG_CMAKE_SYSTEM_NAME OR VCPKG_CMAKE_SYSTEM_NAME STREQUAL "WindowsStore")
-       if(NOT VCPKG_BUILD_TYPE OR VCPKG_BUILD_TYPE STREQUAL "release")
-          file(RENAME "${CURRENT_PACKAGES_DIR}/lib/libhpdfs.lib" "${CURRENT_PACKAGES_DIR}/lib/libhpdf.lib")
-       endif()
-       if(NOT VCPKG_BUILD_TYPE OR VCPKG_BUILD_TYPE STREQUAL "debug")
-          file(RENAME "${CURRENT_PACKAGES_DIR}/debug/lib/libhpdfsd.lib" "${CURRENT_PACKAGES_DIR}/debug/lib/libhpdfd.lib")
-       endif()
+       file(RENAME ${CURRENT_PACKAGES_DIR}/lib/libhpdfs.lib ${CURRENT_PACKAGES_DIR}/lib/libhpdf.lib)
+       file(RENAME ${CURRENT_PACKAGES_DIR}/debug/lib/libhpdfsd.lib ${CURRENT_PACKAGES_DIR}/debug/lib/libhpdfd.lib)
     else()
-       if(NOT VCPKG_BUILD_TYPE OR VCPKG_BUILD_TYPE STREQUAL "release")
-          file(RENAME "${CURRENT_PACKAGES_DIR}/lib/libhpdfs.a" "${CURRENT_PACKAGES_DIR}/lib/libhpdf.a")
-       endif()
-       if(NOT VCPKG_BUILD_TYPE OR VCPKG_BUILD_TYPE STREQUAL "debug")
-          file(RENAME "${CURRENT_PACKAGES_DIR}/debug/lib/libhpdfs.a" "${CURRENT_PACKAGES_DIR}/debug/lib/libhpdfd.a")
-       endif()
+       file(RENAME ${CURRENT_PACKAGES_DIR}/lib/libhpdfs.a ${CURRENT_PACKAGES_DIR}/lib/libhpdf.a)
+       file(RENAME ${CURRENT_PACKAGES_DIR}/debug/lib/libhpdfs.a ${CURRENT_PACKAGES_DIR}/debug/lib/libhpdfd.a)
     endif()
 endif()
 
 file(REMOVE_RECURSE
-    "${CURRENT_PACKAGES_DIR}/debug/include"
-    "${CURRENT_PACKAGES_DIR}/debug/README"
-    "${CURRENT_PACKAGES_DIR}/debug/CHANGES"
-    "${CURRENT_PACKAGES_DIR}/debug/INSTALL"
-    "${CURRENT_PACKAGES_DIR}/README"
-    "${CURRENT_PACKAGES_DIR}/CHANGES"
-    "${CURRENT_PACKAGES_DIR}/INSTALL"
+    ${CURRENT_PACKAGES_DIR}/debug/include
+    ${CURRENT_PACKAGES_DIR}/debug/README
+    ${CURRENT_PACKAGES_DIR}/debug/CHANGES
+    ${CURRENT_PACKAGES_DIR}/debug/INSTALL
+    ${CURRENT_PACKAGES_DIR}/README
+    ${CURRENT_PACKAGES_DIR}/CHANGES
+    ${CURRENT_PACKAGES_DIR}/INSTALL
 )
 
 file(READ "${CURRENT_PACKAGES_DIR}/include/hpdf.h" _contents)
@@ -84,5 +77,6 @@ else()
 endif()
 file(WRITE "${CURRENT_PACKAGES_DIR}/include/hpdf_types.h" "${_contents}")
 
+file(INSTALL ${SOURCE_PATH}/LICENCE DESTINATION ${CURRENT_PACKAGES_DIR}/share/libharu RENAME copyright)
+
 vcpkg_copy_pdbs()
-file(INSTALL "${SOURCE_PATH}/LICENCE" DESTINATION "${CURRENT_PACKAGES_DIR}/share/${PORT}" RENAME copyright)

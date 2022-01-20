@@ -15,9 +15,7 @@ install(
 )
 
 install(
-    EXPORT glm-config
-    NAMESPACE glm::
-    DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/glm
+    EXPORT glm-config DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/glm
 )
 
 install(

@@ -11,8 +11,7 @@ vcpkg_from_github(
 )
 
 vcpkg_check_features(OUT_FEATURE_OPTIONS FEATURE_OPTIONS
-    FEATURES
-        openmp    ENABLE_OPENMP
+    openmp    ENABLE_OPENMP
 )
 
 if(VCPKG_CRT_LINKAGE STREQUAL dynamic)

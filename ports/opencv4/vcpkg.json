@@ -1,22 +1,18 @@
 {
   "name": "opencv4",
-  "version": "4.5.4",
-  "port-version": 2,
+  "version": "4.5.1",
   "description": "computer vision library",
   "homepage": "https://github.com/opencv/opencv",
   "dependencies": [
-    {
-      "name": "vcpkg-cmake",
-      "host": true
-    },
-    {
-      "name": "vcpkg-cmake-config",
-      "host": true
-    },
     "zlib"
   ],
   "default-features": [
-    "default-features"
+    "dnn",
+    "jpeg",
+    "png",
+    "quirc",
+    "tiff",
+    "webp"
   ],
   "features": {
     "ade": {
@@ -42,50 +38,13 @@
       "description": "CUDA support for opencv",
       "dependencies": [
         "cuda",
+        "cudnn",
         {
           "name": "opencv4",
           "default-features": false,
           "features": [
             "contrib"
           ]
-        }
-      ]
-    },
-    "cudnn": {
-      "description": "cuDNN support for opencv",
-      "dependencies": [
-        "cudnn",
-        {
-          "name": "opencv4",
-          "default-features": false,
-          "features": [
-            "cuda"
-          ]
-        }
-      ]
-    },
-    "default-features": {
-      "description": "Platform-dependent default features",
-      "dependencies": [
-        {
-          "name": "opencv4",
-          "default-features": false,
-          "features": [
-            "dnn",
-            "jpeg",
-            "png",
-            "quirc",
-            "tiff",
-            "webp"
-          ]
-        },
-        {
-          "name": "opencv4",
-          "default-features": false,
-          "features": [
-            "gtk"
-          ],
-          "platform": "linux"
         }
       ]
     },
@@ -104,34 +63,13 @@
     "ffmpeg": {
       "description": "ffmpeg support for opencv",
       "dependencies": [
-        {
-          "name": "ffmpeg",
-          "default-features": false,
-          "features": [
-            "avcodec",
-            "avformat",
-            "swresample",
-            "swscale"
-          ]
-        }
+        "ffmpeg"
       ]
     },
     "gdcm": {
       "description": "GDCM support for opencv",
       "dependencies": [
         "gdcm"
-      ]
-    },
-    "gstreamer": {
-      "description": "gstreamer support for opencv",
-      "dependencies": [
-        "gstreamer"
-      ]
-    },
-    "gtk": {
-      "description": "GDCM support for opencv",
-      "dependencies": [
-        "gtk"
       ]
     },
     "halide": {
@@ -208,9 +146,6 @@
       "dependencies": [
         "libpng"
       ]
-    },
-    "python": {
-      "description": "Python wrapper support for opencv"
     },
     "qt": {
       "description": "Qt GUI support for opencv",

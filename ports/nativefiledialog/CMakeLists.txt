@@ -45,14 +45,15 @@ target_compile_definitions(
         $<$<C_COMPILER_ID:MSVC>:_CRT_SECURE_NO_WARNINGS>
 )
 
-target_include_directories(nfd PRIVATE
+target_include_directories(
+    nfd
+    PUBLIC
         $<BUILD_INTERFACE:
-			${CMAKE_CURRENT_LIST_DIR}/src 
-			${CMAKE_CURRENT_LIST_DIR}/src/include
-		>)
-		
-target_include_directories(nfd INTERFACE 
-		$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+            ${CMAKE_CURRENT_LIST_DIR}/src
+            ${CMAKE_CURRENT_LIST_DIR}/src/include
+        >
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+)
 
 if (GTK3_FOUND)
     target_include_directories(nfd PUBLIC ${GTK3_INCLUDE_DIRS})

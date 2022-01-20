@@ -3,8 +3,6 @@ project(tinyfiledialogs C)
 
 add_library(tinyfiledialogs tinyfiledialogs.c)
 
-target_include_directories(tinyfiledialogs INTERFACE $<INSTALL_INTERFACE:include/tinyfiledialogs>)
-
 install(
     TARGETS tinyfiledialogs
     EXPORT tinyfiledialogsConfig
@@ -25,5 +23,5 @@ export(
 install(
     EXPORT tinyfiledialogsConfig
     NAMESPACE tinyfiledialogs::
-    DESTINATION share/tinyfiledialogs
+    DESTINATION "${CMAKE_INSTALL_PREFIX}/share/tinyfiledialogs"
 )

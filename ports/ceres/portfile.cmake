@@ -16,7 +16,6 @@ vcpkg_from_github(
         0001_cmakelists_fixes.patch
         0002_use_glog_target.patch
         0003_fix_exported_ceres_config.patch
-        0004_fix_lib_path_linux.patch
         find-package-required.patch
 )
 
@@ -27,12 +26,11 @@ file(REMOVE ${SOURCE_PATH}/cmake/FindEigen.cmake)
 file(REMOVE ${SOURCE_PATH}/cmake/FindSuiteSparse.cmake)
 
 vcpkg_check_features(OUT_FEATURE_OPTIONS FEATURE_OPTIONS
-    FEATURES
-        "suitesparse"       SUITESPARSE
-        "cxsparse"          CXSPARSE
-        "lapack"            LAPACK
-        "eigensparse"       EIGENSPARSE
-        "tools"             GFLAGS
+    "suitesparse"       SUITESPARSE
+    "cxsparse"          CXSPARSE
+    "lapack"            LAPACK
+    "eigensparse"       EIGENSPARSE
+    "tools"             GFLAGS
 )
 
 vcpkg_configure_cmake(

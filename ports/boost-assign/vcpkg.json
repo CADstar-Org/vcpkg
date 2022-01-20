@@ -1,12 +1,12 @@
 {
   "name": "boost-assign",
-  "version": "1.78.0",
+  "version-string": "1.75.0",
   "description": "Boost assign module",
   "homepage": "https://github.com/boostorg/assign",
   "dependencies": [
     "boost-array",
     "boost-config",
-    "boost-core",
+    "boost-detail",
     "boost-move",
     "boost-mpl",
     "boost-preprocessor",
@@ -16,6 +16,7 @@
     "boost-throw-exception",
     "boost-tuple",
     "boost-type-traits",
+    "boost-utility",
     "boost-vcpkg-helpers"
   ]
 }

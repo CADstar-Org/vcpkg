@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.5.1)
 project(libconfig C CXX)
 
 if(MSVC)
-  add_compile_options(/W3 /wd4005 /wd4996 /wd4018 -D_CRT_SECURE_NO_WARNINGS -DYY_NO_UNISTD_H -DYY_USE_CONST)
+  add_compile_options(/W3 /wd4005 /wd4996 /wd4018 -D_CRT_SECURE_NO_WARNINGS)
 endif()
 
 set(C_SOURCES
@@ -20,9 +20,11 @@ set(CPP_SOURCES
   lib/libconfigcpp.cc
 )
 
-set(CMAKE_C_STANDARD 99)
+find_path(STDINT_H stdint.h)
 
 include_directories(lib ${STDINT_H})
+
+add_definitions(-DYY_NO_UNISTD_H -DYY_USE_CONST)
 
 add_library(libconfig  ${C_SOURCES})
 add_library(libconfig++ ${CPP_SOURCES})

@@ -1,8 +1,8 @@
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO uriparser/uriparser
-    REF 1ebc4811d2a986d68142587eca2256837be0da85 # uriparser-0.9.6
-    SHA512 fda7a92afddf12362691718a220ff23363c9684d0f2b500362f7060abd04440a8baaad1cd3d3ba6ab7e94a16e29763ca67c415aa66c284102bea6b80a8058045
+    REF 25dddb16cf044a7df27884e7ad3911baaaca3d7c # uriparser-0.9.4
+    SHA512 9001649eb027d0ff4f990b20d0f05643939e2bb8ab89d158f32353d6f7c4264a551a6af7856ad13890d05f58b3d15d59e6d82ee0d95b7788c03b34bb52086cd2
     HEAD_REF master
 )
 
@@ -12,8 +12,9 @@ else()
     set(URIPARSER_BUILD_TOOLS OFF)
 endif()
 
-vcpkg_cmake_configure(
-    SOURCE_PATH "${SOURCE_PATH}"
+vcpkg_configure_cmake(
+    SOURCE_PATH ${SOURCE_PATH}
+    PREFER_NINJA
     OPTIONS
         -DURIPARSER_BUILD_DOCS=OFF
         -DURIPARSER_BUILD_TESTS=OFF
@@ -23,7 +24,7 @@ vcpkg_cmake_configure(
         -DURIPARSER_BUILD_TOOLS=${URIPARSER_BUILD_TOOLS}
 )
 
-vcpkg_cmake_install()
+vcpkg_install_cmake()
 
 vcpkg_copy_pdbs()
 
@@ -41,18 +42,18 @@ file(STRINGS
 )
 string(REGEX REPLACE "${_package_version_re}" "\\1" _package_version ${_package_version_define})
 
-vcpkg_cmake_config_fixup(CONFIG_PATH lib/cmake/${PORT}-${_package_version})
+vcpkg_fixup_cmake_targets(CONFIG_PATH lib/cmake/${PORT}-${_package_version})
 
 if(VCPKG_LIBRARY_LINKAGE STREQUAL static)
     vcpkg_replace_string(
-        "${CURRENT_PACKAGES_DIR}/include/uriparser/UriBase.h"
+        ${CURRENT_PACKAGES_DIR}/include/uriparser/UriBase.h
         "defined(URI_STATIC_BUILD)"
         "1 // defined(URI_STATIC_BUILD)"
     )
 endif()
 
-file(REMOVE_RECURSE "${CURRENT_PACKAGES_DIR}/debug/include" "${CURRENT_PACKAGES_DIR}/debug/share")
+file(INSTALL ${SOURCE_PATH}/COPYING DESTINATION ${CURRENT_PACKAGES_DIR}/share/uriparser RENAME copyright)
 
-file(INSTALL "${SOURCE_PATH}/COPYING" DESTINATION "${CURRENT_PACKAGES_DIR}/share/${PORT}" RENAME copyright)
-
-vcpkg_fixup_pkgconfig()
+# Remove duplicate info
+file(REMOVE_RECURSE ${CURRENT_PACKAGES_DIR}/debug/include)
+file(REMOVE_RECURSE ${CURRENT_PACKAGES_DIR}/debug/share)
