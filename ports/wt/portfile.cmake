@@ -8,20 +8,16 @@ vcpkg_from_github(
         0002-link-glew.patch
         0005-XML_file_path.patch
         0006-GraphicsMagick.patch
-        0007-boost_1_77_0.patch
 )
 
 string(COMPARE EQUAL "${VCPKG_LIBRARY_LINKAGE}" "dynamic" SHARED_LIBS)
 
-vcpkg_check_features(
-    OUT_FEATURE_OPTIONS
-    FEATURE_OPTIONS
-    FEATURES
-        dbo        ENABLE_LIBWTDBO
-        postgresql ENABLE_POSTGRES
-        sqlite3    ENABLE_SQLITE
-        sqlserver  ENABLE_MSSQLSERVER
-        openssl    ENABLE_SSL
+vcpkg_check_features(OUT_FEATURE_OPTIONS FEATURE_OPTIONS
+    dbo        ENABLE_LIBWTDBO
+    postgresql ENABLE_POSTGRES
+    sqlite3    ENABLE_SQLITE
+    sqlserver  ENABLE_MSSQLSERVER
+    openssl    ENABLE_SSL
 )
 
 if(VCPKG_TARGET_IS_WINDOWS)
@@ -44,9 +40,9 @@ else()
     endif()
 endif()
 
-vcpkg_cmake_configure(
+vcpkg_configure_cmake(
     SOURCE_PATH ${SOURCE_PATH}
-    GENERATOR Ninja
+    PREFER_NINJA
     OPTIONS
         -DINSTALL_CONFIG_FILE_PATH="${DOWNLOADS}/wt"
         -DSHARED_LIBS=${SHARED_LIBS}
@@ -74,8 +70,8 @@ vcpkg_cmake_configure(
         -DCMAKE_INSTALL_DIR=share
 )
 
-vcpkg_cmake_install()
-vcpkg_cmake_config_fixup()
+vcpkg_install_cmake()
+vcpkg_fixup_cmake_targets()
 
 # There is no way to suppress installation of the headers and resource files in debug build.
 file(REMOVE_RECURSE ${CURRENT_PACKAGES_DIR}/debug/include ${CURRENT_PACKAGES_DIR}/debug/share)

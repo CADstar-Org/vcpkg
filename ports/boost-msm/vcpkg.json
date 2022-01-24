@@ -1,6 +1,6 @@
 {
   "name": "boost-msm",
-  "version": "1.78.0",
+  "version-string": "1.75.0",
   "description": "Boost msm module",
   "homepage": "https://github.com/boostorg/msm",
   "dependencies": [
@@ -21,6 +21,7 @@
     "boost-tuple",
     "boost-type-traits",
     "boost-typeof",
+    "boost-utility",
     "boost-vcpkg-helpers"
   ]
 }

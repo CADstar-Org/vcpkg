@@ -1,10 +1,11 @@
 {
   "name": "boost-container-hash",
-  "version": "1.78.0",
+  "version-string": "1.75.0",
   "description": "Boost container_hash module",
   "homepage": "https://github.com/boostorg/container_hash",
   "dependencies": [
     "boost-assert",
+    "boost-compatibility",
     "boost-config",
     "boost-core",
     "boost-detail",

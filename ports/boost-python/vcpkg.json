@@ -1,16 +1,13 @@
 {
   "name": "boost-python",
-  "version": "1.78.0",
+  "version-string": "1.75.0",
+  "port-version": 1,
   "description": "Boost python module",
   "homepage": "https://github.com/boostorg/python",
-  "supports": "!uwp & !emscripten & !ios & !android",
+  "supports": "!uwp & !(arm & windows) & !emscripten",
   "dependencies": [
-    "boost-align",
     "boost-bind",
-    {
-      "name": "boost-build",
-      "host": true
-    },
+    "boost-compatibility",
     "boost-config",
     "boost-conversion",
     "boost-core",
@@ -21,10 +18,7 @@
     "boost-integer",
     "boost-iterator",
     "boost-lexical-cast",
-    {
-      "name": "boost-modular-build-helper",
-      "host": true
-    },
+    "boost-math",
     "boost-mpl",
     "boost-numeric-conversion",
     "boost-preprocessor",
@@ -35,26 +29,16 @@
     "boost-type-traits",
     "boost-utility",
     "boost-vcpkg-helpers",
-    {
-      "name": "vcpkg-cmake",
-      "host": true
-    }
-  ],
-  "default-features": [
     "python3"
   ],
   "features": {
     "python2": {
       "description": "Build with Python2 support",
-      "supports": "!(arm & windows)",
       "dependencies": [
-        "python2"
-      ]
-    },
-    "python3": {
-      "description": "Build with Python3 support",
-      "dependencies": [
-        "python3"
+        {
+          "name": "python2",
+          "platform": "windows"
+        }
       ]
     }
   }

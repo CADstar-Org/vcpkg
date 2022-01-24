@@ -1,12 +1,12 @@
 {
   "name": "boost-tokenizer",
-  "version": "1.78.0",
+  "version-string": "1.75.0",
   "description": "Boost tokenizer module",
   "homepage": "https://github.com/boostorg/tokenizer",
   "dependencies": [
     "boost-assert",
     "boost-config",
-    "boost-core",
+    "boost-detail",
     "boost-iterator",
     "boost-mpl",
     "boost-throw-exception",

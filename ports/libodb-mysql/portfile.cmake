@@ -11,7 +11,6 @@ vcpkg_extract_source_archive_ex(
         adapter_mysql_8.0.patch
         fix-redefinttion.patch
 )
-file(REMOVE "${SOURCE_PATH}/version")
 
 file(COPY
   ${CMAKE_CURRENT_LIST_DIR}/CMakeLists.txt
@@ -19,9 +18,8 @@ file(COPY
   DESTINATION ${SOURCE_PATH})
 
 set(MYSQL_INCLUDE_DIR "${CURRENT_INSTALLED_DIR}/include/mysql")
-find_library(MYSQL_LIB NAMES libmysql mysqlclient PATH_SUFFIXES lib PATHS "${CURRENT_INSTALLED_DIR}" NO_DEFAULT_PATH REQUIRED)
-find_library(MYSQL_LIB_DEBUG NAMES libmysql mysqlclient PATH_SUFFIXES lib PATHS "${CURRENT_INSTALLED_DIR}/debug" NO_DEFAULT_PATH REQUIRED)
-
+set(MYSQL_LIB "${CURRENT_INSTALLED_DIR}/lib/libmysql.lib")
+set(MYSQL_LIB_DEBUG "${CURRENT_INSTALLED_DIR}/debug/lib/libmysql.lib")
 vcpkg_configure_cmake(
     SOURCE_PATH ${SOURCE_PATH}
     DISABLE_PARALLEL_CONFIGURE
@@ -37,9 +35,11 @@ vcpkg_configure_cmake(
 
 vcpkg_install_cmake()
 
-vcpkg_fixup_cmake_targets(CONFIG_PATH share/odb TARGET_PATH share/odb)
+file(READ ${CURRENT_PACKAGES_DIR}/debug/share/odb/odb_mysqlConfig-debug.cmake LIBODB_DEBUG_TARGETS)
+string(REPLACE "\${_IMPORT_PREFIX}" "\${_IMPORT_PREFIX}/debug" LIBODB_DEBUG_TARGETS "${LIBODB_DEBUG_TARGETS}")
+file(WRITE ${CURRENT_PACKAGES_DIR}/share/odb/odb_mysqlConfig-debug.cmake "${LIBODB_DEBUG_TARGETS}")
+file(REMOVE_RECURSE ${CURRENT_PACKAGES_DIR}/debug/share)
 
 vcpkg_copy_pdbs()
 
-file(INSTALL ${CMAKE_CURRENT_LIST_DIR}/usage DESTINATION ${CURRENT_PACKAGES_DIR}/share/${PORT})
 file(INSTALL ${SOURCE_PATH}/LICENSE DESTINATION ${CURRENT_PACKAGES_DIR}/share/${PORT} RENAME copyright)

@@ -16,9 +16,7 @@ endif()
 vcpkg_configure_make(
     AUTOCONFIG
     SOURCE_PATH ${SOURCE_PATH}
-    OPTIONS
-        ax_cv_check_cflags___O3=no # see https://github.com/microsoft/vcpkg/pull/17912#issuecomment-840514179
-        ${OPTIONS}
+    OPTIONS ${OPTIONS}
 )
 vcpkg_install_make()
 vcpkg_fixup_pkgconfig()

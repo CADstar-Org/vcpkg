@@ -5,78 +5,27 @@ vcpkg_check_linkage(ONLY_STATIC_LIBRARY)
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO googleapis/google-cloud-cpp
-    REF v1.35.0
-    SHA512 99eabb37ff32ddaf8f646415b50f3843e89fb119646428c16f03060c2787c8d86fa1ac0919ee60c4f6c7a3b71a14eb828ae26a7fc26d928543d72c7ba3268bff
-    HEAD_REF main
-    PATCHES
-        support_absl_cxx17.patch
+    REF v1.24.0
+    SHA512 06d53c1599ad60d5ec201f4fc9526f1bae6aee3c776423b9072c07030c840fb808c4e983b83ca58b7899f56e648b4a73846c8ecad0238e513979964f2d28d072
+    HEAD_REF master
 )
 
-vcpkg_add_to_path(PREPEND "${CURRENT_HOST_INSTALLED_DIR}/tools/grpc")
-
-set(GOOGLE_CLOUD_CPP_ENABLE "${FEATURES}")
-list(REMOVE_ITEM GOOGLE_CLOUD_CPP_ENABLE "core")
-list(REMOVE_ITEM GOOGLE_CLOUD_CPP_ENABLE "googleapis")
-
-vcpkg_cmake_configure(
+vcpkg_configure_cmake(
     SOURCE_PATH ${SOURCE_PATH}
+    PREFER_NINJA
     DISABLE_PARALLEL_CONFIGURE
     OPTIONS
-        "-DGOOGLE_CLOUD_CPP_ENABLE=${GOOGLE_CLOUD_CPP_ENABLE}"
         -DGOOGLE_CLOUD_CPP_ENABLE_MACOS_OPENSSL_CHECK=OFF
         -DGOOGLE_CLOUD_CPP_ENABLE_WERROR=OFF
-        -DGOOGLE_CLOUD_CPP_ENABLE_CCACHE=OFF
-        -DGOOGLE_CLOUD_CPP_ENABLE_EXAMPLES=OFF
         -DBUILD_TESTING=OFF
 )
 
-vcpkg_cmake_install()
+vcpkg_install_cmake(ADD_BIN_TO_PATH)
 
 file(REMOVE_RECURSE ${CURRENT_PACKAGES_DIR}/debug/include)
-foreach(feature IN LISTS FEATURES)
-    set(config_path "lib/cmake/google_cloud_cpp_${feature}")
-    # Most features get their own package in `google-cloud-cpp`.
-    # The exceptions are captured by this `if()` command, basically
-    # things like `core` and `experimental-storage-grpc` are skipped.
-    if(NOT IS_DIRECTORY "${CURRENT_PACKAGES_DIR}/${config_path}")
-        continue()
-    endif()
-    vcpkg_cmake_config_fixup(PACKAGE_NAME "google_cloud_cpp_${feature}"
-                             CONFIG_PATH "${config_path}"
-                             DO_NOT_DELETE_PARENT_CONFIG_PATH)
-endforeach()
-# These packages are automatically installed depending on what features are
-# enabled.
-foreach(suffix common googleapis grpc_utils)
-    set(config_path "lib/cmake/google_cloud_cpp_${suffix}")
-    if(NOT IS_DIRECTORY "${CURRENT_PACKAGES_DIR}/${config_path}")
-        continue()
-    endif()
-    vcpkg_cmake_config_fixup(PACKAGE_NAME "google_cloud_cpp_${suffix}"
-                             CONFIG_PATH "${config_path}"
-                             DO_NOT_DELETE_PARENT_CONFIG_PATH)
-endforeach()
+vcpkg_fixup_cmake_targets(CONFIG_PATH lib/cmake TARGET_PATH share)
 
-# These packages are only for backwards compability. The google-cloud-cpp team
-# is planning to remove them around 2022-02-15.
-foreach(package
-        googleapis
-        bigtable_client
-        pubsub_client
-        spanner_client
-        storage_client)
-    set(config_path "lib/cmake/${package}")
-    if(NOT IS_DIRECTORY "${CURRENT_PACKAGES_DIR}/${config_path}")
-        continue()
-    endif()
-    vcpkg_cmake_config_fixup(PACKAGE_NAME "${package}"
-                             CONFIG_PATH "${config_path}"
-                             DO_NOT_DELETE_PARENT_CONFIG_PATH)
-endforeach()
-
-file(REMOVE_RECURSE "${CURRENT_PACKAGES_DIR}/lib/cmake"
-                    "${CURRENT_PACKAGES_DIR}/debug/lib/cmake"
-                    "${CURRENT_PACKAGES_DIR}/debug/share")
+file(REMOVE_RECURSE ${CURRENT_PACKAGES_DIR}/debug/share)
 file(INSTALL ${SOURCE_PATH}/LICENSE DESTINATION ${CURRENT_PACKAGES_DIR}/share/${PORT} RENAME copyright)
 
 vcpkg_copy_pdbs()

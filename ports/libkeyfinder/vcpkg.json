@@ -1,19 +1,11 @@
 {
   "name": "libkeyfinder",
-  "version": "2.2.6",
+  "version-string": "2.2.4",
   "description": "Musical key detection for digital audio",
   "homepage": "https://github.com/mixxxdj/libkeyfinder",
   "license": "GPL-3.0-or-later",
   "dependencies": [
-    "fftw3",
-    {
-      "name": "vcpkg-cmake",
-      "host": true
-    },
-    {
-      "name": "vcpkg-cmake-config",
-      "host": true
-    }
+    "fftw3"
   ],
   "features": {
     "test": {

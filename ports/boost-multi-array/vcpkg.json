@@ -1,19 +1,11 @@
 {
   "name": "boost-multi-array",
-  "version": "1.78.0",
+  "version-string": "1.75.0",
   "description": "Boost multi_array module",
   "homepage": "https://github.com/boostorg/multi_array",
   "dependencies": [
-    "boost-array",
-    "boost-assert",
-    "boost-concept-check",
+    "boost-compatibility",
     "boost-config",
-    "boost-core",
-    "boost-functional",
-    "boost-iterator",
-    "boost-mpl",
-    "boost-static-assert",
-    "boost-type-traits",
     "boost-vcpkg-helpers"
   ]
 }

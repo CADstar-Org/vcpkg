@@ -9,7 +9,6 @@ vcpkg_from_sourceforge(
         macOS_Xquartz.patch
         gcc10.patch
         fix-debug-macro.patch
-        no_x64_enforcement.patch
 )
 
 if(NOT VCPKG_TARGET_IS_WINDOWS)
@@ -75,5 +74,3 @@ file(COPY ${CMAKE_CURRENT_LIST_DIR}/usage DESTINATION ${CURRENT_PACKAGES_DIR}/sh
 if(VCPKG_CMAKE_SYSTEM_NAME STREQUAL "Linux")
     file(COPY ${CMAKE_CURRENT_LIST_DIR}/vcpkg-cmake-wrapper.cmake DESTINATION ${CURRENT_PACKAGES_DIR}/share/glut)
 endif()
-
-vcpkg_fixup_pkgconfig()
