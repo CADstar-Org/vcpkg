@@ -1,5 +1,7 @@
 # Vcpkg: Overview
 
+**IMPORTANT this fork is deprecated, please use: [https://github.com/ifekonja/vcpkg-registry/](https://github.com/ifekonja/vcpkg-registry)**
+
 [中文总览](README_zh_CN.md)
 [Español](README_es.md)
 [한국어](README_ko_KR.md)
