@@ -1,6 +1,6 @@
 {
   "name": "opengv",
-  "version-string": "1.0",
+  "version-semver": "1.0.0",
   "homepage": "http://laurentkneip.github.io/opengv/",
   "description": "OpenGV",
   "dependencies": [],
